@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.validation.FilmValidation;
@@ -9,16 +9,16 @@ import ru.yandex.practicum.filmorate.validation.FilmValidation;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
+@Service
+@Slf4j
 public class FilmService {
 
-    private static Map<Integer, Film> films = new HashMap<>();
-    private static int sequenceId = 1;
-    private static FilmValidation validation = new FilmValidation();
-    private final static Logger log = LoggerFactory.getLogger(FilmService.class);
+    private Map<Integer, Film> films = new HashMap<>();
+    private int sequenceId = 1;
+    private FilmValidation validation = new FilmValidation();
 
 
-    public Collection<Film> getFilms(){  //получение списка всех пользователей.
+    public Collection<Film> getFilms(){//получение списка всех пользователей.
         validation.getFilms();
         return films.values();
     }

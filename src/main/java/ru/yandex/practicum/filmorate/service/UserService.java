@@ -1,8 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validation.UserValidation;
@@ -10,12 +10,12 @@ import ru.yandex.practicum.filmorate.validation.UserValidation;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
+@Slf4j
+@Service
 public class UserService {
-    private final static Logger log = LoggerFactory.getLogger(UserService.class);
-    private static final Map<Integer, User> users = new HashMap<>();
-    private static int sequenceId = 1;
-    private static UserValidation validation = new UserValidation();
+    private  final Map<Integer, User> users = new HashMap<>();
+    private int sequenceId = 1;
+    private UserValidation validation = new UserValidation();
 
     public Collection<User> getUsers() {
         validation.getUser();

@@ -1,14 +1,13 @@
 package ru.yandex.practicum.filmorate.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
-
+@Slf4j
 public class UserValidation {
-    private final static Logger log = LoggerFactory.getLogger(UserValidation.class);
+  //  private final static Logger log = LoggerFactory.getLogger(UserValidation.class);
 
     public void getUser() {
         log.info("Получен GET запрос.");

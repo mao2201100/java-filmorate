@@ -1,14 +1,10 @@
 package ru.yandex.practicum.filmorate.model;
 
-import java.time.Duration;
-import java.time.LocalDate;
 import lombok.Data;
-import lombok.ToString;
 
-import java.util.Random;
+import java.time.LocalDate;
 
 @Data
-@ToString
 public class Film {
 
     private int id;

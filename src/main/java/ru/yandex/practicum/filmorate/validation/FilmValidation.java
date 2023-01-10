@@ -1,20 +1,13 @@
 package ru.yandex.practicum.filmorate.validation;
 
-import org.slf4j.LoggerFactory;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import ru.yandex.practicum.filmorate.controller.FilmController;
+import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
-import java.util.Collection;
-
+@Slf4j
 public class FilmValidation {
-    private final static org.slf4j.Logger log = LoggerFactory.getLogger(FilmController.class);
+  //  private final static org.slf4j.Logger log = LoggerFactory.getLogger(FilmController.class);
 
     public void getFilms(){  //получение списка всех пользователей.
         log.info("Получен GET запрос.");
@@ -43,7 +36,6 @@ public class FilmValidation {
         return film;
     }
 
-    @PutMapping
     public Film putFilm(Film film){
         create(film);
         return film;

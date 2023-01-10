@@ -10,7 +10,11 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserService service = new UserService();
+    private final UserService service;
+
+    public UserController() {
+        this.service = new UserService();
+    }
 
     @GetMapping
     public Collection<User> readAll() {  //получение списка всех пользователей.

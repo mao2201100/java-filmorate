@@ -10,8 +10,11 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/films")
 public class FilmController {
-    private static FilmService service = new FilmService();
+    private final FilmService service;
 
+    public FilmController() {
+        this.service = new FilmService();
+    }
 
     @GetMapping
     public Collection<Film> readAll() {  //получение списка всех пользователей.

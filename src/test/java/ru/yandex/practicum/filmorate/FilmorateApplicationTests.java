@@ -9,10 +9,9 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validation.FilmValidation;
 import ru.yandex.practicum.filmorate.validation.UserValidation;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -91,11 +90,6 @@ class FilmorateApplicationTests {
 
         assertEquals("продолжительность фильма должна быть положительной",
                 exceptionMassageFilm(filmFileDuration).getMessage());
-
-    }
-
-    @Test
-    void contextLoads() {
 
     }
 
