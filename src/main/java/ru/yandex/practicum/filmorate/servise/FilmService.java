@@ -3,7 +3,8 @@ package ru.yandex.practicum.filmorate.servise;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
