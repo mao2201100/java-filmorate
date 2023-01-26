@@ -1,30 +1,23 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exeption.NotFoundException;
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.servise.FilmServiceImpl;
 
 import java.util.Collection;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
 public class FilmController {
-    private final FilmStorage service;
-
-    @Autowired
-    public FilmController() {
-        this.service = new InMemoryFilmStorage();
+    private final FilmServiceImpl service;
+//@Autowired
+    public FilmController(FilmServiceImpl service) {
+        this.service = service;
     }
 
     @GetMapping
-    public Collection<Film> readAll() {  //получение списка всех фильмов.
+    public Collection<Film> readAll() { //получение списка всех фильмов.
         return service.getFilms();
     }
 
@@ -56,28 +49,8 @@ public class FilmController {
 
     @GetMapping("/popular")
     public Collection<Film> popularFilms(@RequestParam (required = false) Long count){
-        if(count != null){
-            return service.popularFilms(Long.valueOf(count));
-        }else {
-            return service.popularFilms(10);
-        }
+            return service.popularFilms(count);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidationException(final ValidationException e) {
-        return Map.of(
-                "error", "Что-то пошло не так",
-                "errorMessage", e.getMessage()
-        );
-    }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNotFoundException(final NotFoundException e) {
-        return Map.of(
-                "error", "Что-то пошло не так",
-                "errorMessage", e.getMessage()
-        );
-    }
     }

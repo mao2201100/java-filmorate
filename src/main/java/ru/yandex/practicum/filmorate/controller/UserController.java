@@ -1,24 +1,19 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exeption.NotFoundException;
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.servise.UserService;
 
 import java.util.Collection;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserStorage service;
-    public UserController(@Qualifier("InMemoryUserStorage") UserStorage userStorage) {
-        this.service = userStorage;
+    private final UserService service;
+    public UserController(UserService userService) {
+        this.service = userService;
     }
 
     @GetMapping
@@ -53,7 +48,7 @@ public class UserController {
 
     @PutMapping("/{id}/friends/{friendId}") // добавление в друзья.
     public void putFriend(@PathVariable("id") Long id, @PathVariable("friendId") Long friendId){
-        service.putFriend(id, friendId);
+        service.addFriend(id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}") // удаление из друзей
@@ -61,21 +56,5 @@ public class UserController {
         service.delFriend(id,friendId);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidationException(final ValidationException e) {
-        return Map.of(
-                "error", "Что-то пошло не так",
-                "errorMessage", e.getMessage()
-        );
-    }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNotFoundException(final NotFoundException e) {
-        return Map.of(
-                "error", "Что-то пошло не так",
-                "errorMessage", e.getMessage()
-        );
-    }
 }

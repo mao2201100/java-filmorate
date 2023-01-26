@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.validation;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @Slf4j
+@Component
 public class UserValidation {
 
     public void getUser() {
