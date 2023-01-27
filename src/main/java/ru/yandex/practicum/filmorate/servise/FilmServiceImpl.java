@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.servise;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.validation.FilmValidation;
@@ -33,7 +34,7 @@ public class FilmServiceImpl implements FilmService { //отвечает за о
     @Override
     public Collection<Film> getFilms() // показать все фильмы
     {
-        validation.getFilms();
+        log.info("Получен GET запрос.");
         return inMemoryFilmStorage.getFilms();
     }
 
@@ -50,7 +51,7 @@ public class FilmServiceImpl implements FilmService { //отвечает за о
     public Film update(Film film) // изменить фильм
     {
         validation.putFilm(film);
-        validation.containsFilm(film.getId(), films());
+        containsFilm(film.getId(), films());
         inMemoryFilmStorage.update(film);
         log.info("Изменен фильм id:" + film.getId());
         return film;
@@ -59,14 +60,15 @@ public class FilmServiceImpl implements FilmService { //отвечает за о
     @Override
     public Film findById(long filmId) // найти фильм по id
     {
-        validation.containsFilm(filmId, films());
+        log.info("Получен GET запрос.");
+        containsFilm(filmId, films());
         return films().get(filmId);
     }
 
     @Override
     public Film addLike(long filmId, long userId) // добавление лайка
     {
-        validation.containsFilm(filmId, films());
+        containsFilm(filmId, films());
         validation.userBeadId(userId);
         Map<Long, Film> map = new HashMap<>();
         map = films();
@@ -79,7 +81,7 @@ public class FilmServiceImpl implements FilmService { //отвечает за о
     public Film removeLike(long filmId, long userId) //пользователь удаляет лайк
     {
         validation.userBeadId(userId);
-        validation.containsFilm(filmId, films());
+        containsFilm(filmId, films());
         Film film = films().get(filmId);
         film.removeLike(userId);
         inMemoryFilmStorage.update(film);
@@ -102,6 +104,13 @@ public class FilmServiceImpl implements FilmService { //отвечает за о
                 return o2.getLikes().size() - o1.getLikes().size();
             }).limit(count).collect(Collectors.toList()).stream().forEach(x -> popularFilm.put(x.getId(), x));
             return popularFilm.values();
+        }
+    }
+
+    public void containsFilm(long filmId, Map films){ //проверка существования фильма
+        if (!films.containsKey(filmId)){
+            log.warn("Ошибка : фильм не найден.");
+            throw new NotFoundException("Фильм не найден.");
         }
     }
 }

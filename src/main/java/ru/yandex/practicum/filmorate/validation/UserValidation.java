@@ -14,11 +14,6 @@ import java.util.Map;
 @Component
 public class UserValidation {
 
-    public void getUser() {
-        log.info("Получен GET запрос.");
-    }
-
-@ExceptionHandler
     public void create(User user) {
         if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             log.warn("Валидация не пройдена: электронная почта не может быть пустой и должна содержать символ @");
@@ -33,15 +28,6 @@ public class UserValidation {
             log.warn("Валидация не пройдена: дата рождения не может быть в будущем");
             throw new ValidationException("дата рождения не может быть в будущем");
         }
-
-    }
-
-    public User searchUser(User user, Map users) {
-        if (users.get(user.getId()) == null) {
-            log.warn("Ошибка валидации: пользователь не найден.");
-            throw new NotFoundException("Пользователь не найден.");
-        }
-        return user;
     }
 
     public Boolean containsUser(long userId, Map users){ //проверка существования пользователя

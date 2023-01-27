@@ -11,7 +11,6 @@ import java.util.Collection;
 @RequestMapping("/films")
 public class FilmController {
     private final FilmServiceImpl service;
-//@Autowired
     public FilmController(FilmServiceImpl service) {
         this.service = service;
     }

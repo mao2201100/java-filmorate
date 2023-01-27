@@ -13,11 +13,6 @@ import java.util.Map;
 @Component
 public class FilmValidation {
 
-
-    public void getFilms() {  //получение списка всех пользователей.
-        log.info("Получен GET запрос.");
-    }
-
     public Film create(Film film) {
 
         if (film.getName() == null || film.getName().isBlank()) {
@@ -46,20 +41,11 @@ public class FilmValidation {
         return film;
     }
 
-    public Boolean containsFilm(long filmId, Map films){ //проверка существования фильма
-        if (!films.containsKey(filmId)){
-            log.warn("Ошибка валидации: фильм не найден.");
-            throw new NotFoundException("Фильм не найден.");
-        }
-        return true;
-    }
-
-    public Boolean userBeadId(long userId){
-        if(userId <= 0){
+    public Boolean userBeadId(long userId) {
+        if (userId <= 0) {
             log.warn("Ошибка валидации: Id пользователя не может быть отрицательным");
             throw new NotFoundException("Id пользователя не может быть отрицательным");
         }
         return true;
     }
-
 }

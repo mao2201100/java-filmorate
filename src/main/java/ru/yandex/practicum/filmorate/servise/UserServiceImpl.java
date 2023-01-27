@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.servise;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.validation.UserValidation;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Collection<User> getUsers() { // показать всех пользователей
-        validation.getUser();
+        log.info("Получен GET запрос.");
         return inMemoryUserStorage.getUsers();
     }
 
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(User user) { // изменить пользователя
         validation.create(user);
-        validation.searchUser(user, users());
+        searchUser(user, users());
         inMemoryUserStorage.update(user);
         log.info("Изменен пользователь id:" + user.getId() + " логин: " + user.getLogin());
         return user;
@@ -57,6 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(long userId) { // найти юзера по id
+        log.info("Получен GET запрос.");
         validation.containsUser(userId, users());
         return users().get(userId);
     }
@@ -123,4 +125,10 @@ public class UserServiceImpl implements UserService {
         return mutualFriendsUsers.values();
     }
 
+    public void searchUser(User user, Map users) {
+        if (users.get(user.getId()) == null) {
+            log.warn("Ошибка валидации: пользователь не найден.");
+            throw new NotFoundException("Пользователь не найден.");
+        }
+    }
 }
