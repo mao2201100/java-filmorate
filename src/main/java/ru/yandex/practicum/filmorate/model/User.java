@@ -16,6 +16,7 @@ public class User {
     private String name;
     private LocalDate birthday;
     private Set<Long> friends = new HashSet<>(); // хранит id пользователей добавленных в друзья
+    private FriendShipStatus friendShipStatus = new FriendShipStatus();
 
     public User (String email, String login, String name, LocalDate birthday){
         this.email = email;

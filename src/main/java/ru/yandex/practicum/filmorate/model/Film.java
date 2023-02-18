@@ -14,6 +14,9 @@ public class Film {
     private String description;
     private LocalDate releaseDate;
     private Long duration;
+    private Genre genre = new Genre();
+    private MotionPictureAssociation motionPictureAssociation = new MotionPictureAssociation();
+
     Set<Long> likes = new HashSet<>(); // хранит id пользователей поставивших лайк
 
     public Film(String name, String description, LocalDate releaseDate, Long duration){
@@ -34,5 +37,7 @@ public class Film {
     public Set getLikes(){
         return likes;
     }
+
+
 
 }
