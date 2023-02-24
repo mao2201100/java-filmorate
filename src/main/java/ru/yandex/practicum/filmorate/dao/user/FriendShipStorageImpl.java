@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.dao.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.user.FriendShip;
@@ -11,7 +10,11 @@ import java.util.stream.Collectors;
 
 @Repository
 public class FriendShipStorageImpl implements FriendShipStorage {
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
+
+    public FriendShipStorageImpl(JdbcTemplate template) {
+        this.template = template;
+    }
 
     @Override
     public List<FriendShip> readAll() {
@@ -50,10 +53,4 @@ public class FriendShipStorageImpl implements FriendShipStorage {
         return template.query("SELECT * FROM \"friend_ship\" WHERE \"user_owner_id\"=? ", new FrindShipRowMapper(),
                  new Object[]{userId}).stream().map(FriendShip::getFriendId).collect(Collectors.toList());
     }
-
-    @Autowired
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
-    }
-
 }

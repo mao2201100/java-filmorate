@@ -39,11 +39,9 @@ public class FilmLikesStorageImpl implements FilmLikesStorage {
 
     @Override
     public FilmLikes findById(long id) {
-        try {
-            return template.queryForObject("SELECT * from \"film_likes\" where \"id\"=?", new FilmLikesRowMapper(), id);
-        } catch (Exception e) {
-            return null;
-        }
+        final var filmLikes = template.query("SELECT * from \"film_likes\" where \"id\"=?", new FilmLikesRowMapper(), id);
+
+            return filmLikes.isEmpty() ? null : filmLikes.get(0);
     }
 
     @Override

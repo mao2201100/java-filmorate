@@ -16,9 +16,6 @@ public interface UserStorage {
     void create(User user);
 
     void update(User user); // изменить пользователя
-    void addFriend(long userId, long friendId); //добавление в друзья.
-    void deleteFriend(long userId, long friendsId ); // удаление из друзей
-    List<User> friendsCommonOtherId(long userId, long otherId); //список друзей, общих с другим пользователем.
 
     Collection<User> fetchUsersByIds(Collection<Long> ids);
 }

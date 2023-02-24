@@ -16,11 +16,6 @@ public class UserController {
         this.service = service;
     }
 
-//    @GetMapping("/{login}")
-//    public User getUser(@PathVariable String login){
-//        return service.findUserByLogin(login);
-//    }
-
     @GetMapping
     public Collection<User> readAll() {  //получение списка всех пользователей.
         return service.getUsers();

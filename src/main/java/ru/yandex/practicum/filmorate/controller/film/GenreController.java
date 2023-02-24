@@ -13,21 +13,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/genres")
 public class GenreController {
-    private GenreService service;
+    private final GenreService genreService;
+
+    public GenreController(GenreService genreService) {
+        this.genreService = genreService;
+    }
 
 
     @GetMapping("/{id}")
     public Genre readById(@PathVariable Long id) {
-        return service.readById(id);
+        return genreService.readById(id);
     }
 
     @GetMapping
     public List<Genre> readAll() {
-        return service.readAll();
+        return genreService.readAll();
     }
 
-    @Autowired
-    public void setService(GenreService service) {
-        this.service = service;
-    }
 }

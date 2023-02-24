@@ -26,11 +26,11 @@ public class FilmServiceImpl implements FilmService { //отвечает за о
     private static Long ID_SEQ = 1L;
     private static Long LIKE_ID_SEQ = 1L;
 
-    private FilmLikesService likesService;
-    private FilmStorage storage;
-    private MpaService mpaService;
-    private GenreService genreService;
-    private FilmValidation validation;
+    private final FilmLikesService likesService;
+    private final FilmStorage storage;
+    private final MpaService mpaService;
+    private final GenreService genreService;
+    private final FilmValidation validation;
 
 
     public FilmServiceImpl(GenreService genreService, MpaService mpaService, FilmLikesService likesService, FilmStorage storage, FilmValidation filmValidation) {

@@ -13,11 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/mpa")
 public class MPAController {
-    private MpaService service;
+    private final MpaService mpaService;
+
+    public MPAController(MpaService mpaService) {
+        this.mpaService = mpaService;
+    }
 
     @GetMapping("/{id}")
     public MPA readById(@PathVariable Long id) {
-        var mpa = service.readById(id);
+        var mpa = mpaService.readById(id);
         if (mpa.getId() == 1) {
             mpa.setName("G");
         }
@@ -26,12 +30,7 @@ public class MPAController {
 
     @GetMapping("")
     public List<MPA> readAll() {
-        return service.readAll();
+        return mpaService.readAll();
     }
-
-    @Autowired
-    public void setService(MpaService service) {
-        this.service = service;
-    }
-
+    
 }

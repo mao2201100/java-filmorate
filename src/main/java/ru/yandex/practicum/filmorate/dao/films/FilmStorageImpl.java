@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.dao.films;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.film.Film;
@@ -9,7 +8,11 @@ import java.util.List;
 
 @Repository
 public class FilmStorageImpl implements FilmStorage {
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
+
+    public FilmStorageImpl(JdbcTemplate template) {
+        this.template = template;
+    }
 
     @Override
     public List<Film> readAll() {
@@ -31,16 +34,8 @@ public class FilmStorageImpl implements FilmStorage {
 
     @Override
     public Film findById(long filmId) {
-        try {
-            return template.queryForObject("SELECT * from \"films\" where \"id\"=?", new FilmRowMapper(), filmId);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Autowired
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
+        final var films = template.query("SELECT * from \"films\" where \"id\"=?", new FilmRowMapper(), filmId);
+        return films.isEmpty() ? null : films.get(0);
     }
 
 }

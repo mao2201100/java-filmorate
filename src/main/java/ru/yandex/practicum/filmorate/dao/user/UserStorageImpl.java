@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.dao.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,11 @@ import java.util.stream.Collectors;
 @Repository
 public class UserStorageImpl implements UserStorage {
 
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
+
+    public UserStorageImpl(JdbcTemplate template) {
+        this.template = template;
+    }
 
     @Override
     public User findUserByLogin(String login) {
@@ -30,12 +33,10 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public User readById(Long userId) {
-        try {
-            return template.queryForObject("SELECT * FROM \"users\" WHERE \"id\" = ? ", new UserRowMapper()
+        final var user = template.query("SELECT * FROM \"users\" WHERE \"id\" = ? ", new UserRowMapper()
                     , new Object[]{userId});
-        } catch (Exception e) {
-            return null;
-        }
+
+            return user.isEmpty() ? null : user.get(0);
     }
 
     @Override
@@ -50,20 +51,6 @@ public class UserStorageImpl implements UserStorage {
                 , new Object[]{user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getId()});
     }
 
-    @Override
-    public void addFriend(long userId, long friendId) {
-
-    }
-
-    @Override
-    public void deleteFriend(long userId, long friendsId) {
-
-    }
-
-    @Override
-    public List<User> friendsCommonOtherId(long userId, long otherId) {
-        return null;
-    }
 
     @Override
     public Collection<User> fetchUsersByIds(Collection<Long> ids) {
@@ -79,10 +66,4 @@ public class UserStorageImpl implements UserStorage {
         };
         return template.query(String.format(sql, ids.stream().map(x-> "?").collect(Collectors.joining(","))),e, new UserRowMapper());
     }
-
-    @Autowired
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
-    }
-
 }

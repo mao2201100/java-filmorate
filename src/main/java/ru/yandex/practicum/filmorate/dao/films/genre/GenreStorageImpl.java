@@ -10,7 +10,11 @@ import java.util.List;
 
 @Repository
 public class GenreStorageImpl implements GenreStorage {
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
+
+    public GenreStorageImpl(JdbcTemplate template) {
+        this.template = template;
+    }
 
     @Override
     public List<Genre> readByFilmId(Long filmId) {
@@ -49,11 +53,9 @@ public class GenreStorageImpl implements GenreStorage {
 
     @Override
     public GenreFilm readById(Long genreId, Long filmId) {
-        try {
-            return template.queryForObject("SELECT * FROM \"genre_films\" where \"genre_id\" = ? and \"films_id\" = ?", new GenreFilmRowMapper(), genreId, filmId);
-        } catch (Exception e) {
-            return null;
-        }
+
+        final var genre = template.query("SELECT * FROM \"genre_films\" where \"genre_id\" = ? and \"films_id\" = ?", new GenreFilmRowMapper(), genreId, filmId);
+        return genre.isEmpty() ? null : genre.get(0);
     }
 
     @Override
@@ -66,10 +68,4 @@ public class GenreStorageImpl implements GenreStorage {
     public void deleteGenreFilmByFilm(Long filmId) {
         template.update("DELETE FROM \"genre_films\" where \"films_id\" = ?", filmId);
     }
-
-    @Autowired
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
-    }
-
 }

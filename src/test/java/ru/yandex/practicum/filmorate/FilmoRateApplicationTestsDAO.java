@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.yandex.practicum.filmorate.dao.films.FilmStorage;
+import ru.yandex.practicum.filmorate.dao.films.FilmStorageImpl;
 import ru.yandex.practicum.filmorate.model.user.FriendShip;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.dao.user.FriendShipStorage;
@@ -20,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class FilmoRateApplicationTestsDAO {
     private final UserStorageImpl userStorage;
+    private final FilmStorage filmStorage;
     private final FriendShipStorage friendShipStorage;
     @Test
     public void testReadAllUsers() {
@@ -48,6 +51,11 @@ class FilmoRateApplicationTestsDAO {
         friendShip.setUserOwnerId(2L);
         friendShipStorage.create(friendShip);
         assertEquals(friendShip.getId(), friendShipStorage.readById(1L).getId());
+    }
+
+    @Test
+    public void tr() {
+        filmStorage.findById(1L);
     }
 
 
