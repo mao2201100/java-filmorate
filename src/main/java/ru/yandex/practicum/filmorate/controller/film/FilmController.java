@@ -1,9 +1,9 @@
-package ru.yandex.practicum.filmorate.controller;
+package ru.yandex.practicum.filmorate.controller.film;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.servise.FilmServiceImpl;
+import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.service.film.FilmServiceImpl;
 
 import java.util.Collection;
 
@@ -48,8 +48,7 @@ public class FilmController {
 
     @GetMapping("/popular")
     public Collection<Film> popularFilms(@RequestParam (required = false) Long count){
-            return service.popularFilms(count);
+        return service.popularFilms(count);
     }
 
-
-    }
+}

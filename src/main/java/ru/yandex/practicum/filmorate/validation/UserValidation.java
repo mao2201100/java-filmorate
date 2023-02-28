@@ -2,10 +2,9 @@ package ru.yandex.practicum.filmorate.validation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.yandex.practicum.filmorate.exeption.NotFoundException;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.user.User;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -54,19 +53,19 @@ public class UserValidation {
     public Boolean containsFriendsUser(long userId, long friendId, Map users){ // проверка друзей пользователя
         User user1 = (User)users.get(userId);
         User user2 = (User)users.get(friendId);
-        if(!user1.getFriends(friendId).isEmpty() && !user2.getFriends(userId).isEmpty()){
-            return true;
-        }
+//        if(!user1.getFriends(friendId).isEmpty() && !user2.getFriends(userId).isEmpty()){
+//            return true;
+//        }
         log.warn("пользователя с id: " + userId + " и id " + friendId + " не друзья");
         throw new ValidationException("пользователя с id: " + userId + " и id " + friendId + " не друзья");
     }
 
     public Boolean friendsUser(long userId, Map users){ // проверка наличия друзей у пользователя
         User user = (User)users.get(userId);
-        if (user.getFriends().isEmpty()){
-            log.warn("у пользователя с id: " + userId + " нет друзей");
-            throw new ValidationException("у пользователя с id: " + userId + " нет друзей");
-        }
+//        if (user.getFriends().isEmpty()){
+//            log.warn("у пользователя с id: " + userId + " нет друзей");
+//            throw new ValidationException("у пользователя с id: " + userId + " нет друзей");
+//        }
         return true;
     }
 }

@@ -1,9 +1,9 @@
-package ru.yandex.practicum.filmorate.controller;
+package ru.yandex.practicum.filmorate.controller.user;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.servise.UserService;
+import ru.yandex.practicum.filmorate.model.user.User;
+import ru.yandex.practicum.filmorate.service.user.UserService;
+import ru.yandex.practicum.filmorate.service.user.UserServiceImpl;
 
 import java.util.Collection;
 
@@ -12,8 +12,8 @@ import java.util.Collection;
 public class UserController {
 
     private final UserService service;
-    public UserController(UserService userService) {
-        this.service = userService;
+    public UserController(UserServiceImpl service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -32,18 +32,18 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@Validated @RequestBody User user) {
+    public User create(@RequestBody User user) {
         return service.create(user);
     }
 
     @PutMapping
-    public User update(@Validated @RequestBody User user) {
+    public User update(@RequestBody User user) {
         return service.update(user);
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable long id){ // получить юзера по id
-        return service.findById(id);
+    public User findById(@PathVariable("id") Long id){ // получить юзера по id
+        return service.findUserById(id);
     }
 
     @PutMapping("/{id}/friends/{friendId}") // добавление в друзья.
@@ -52,8 +52,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}/friends/{friendId}") // удаление из друзей
-    public void delFriends(@PathVariable Long id, @PathVariable Long friendId){
-        service.delFriend(id,friendId);
+    public void deleteFriends(@PathVariable Long id, @PathVariable Long friendId){
+        service.deleteFriend(id, friendId);
     }
 
 
